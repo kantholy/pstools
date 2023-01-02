@@ -1,4 +1,8 @@
-﻿#Requires -RunAsAdministrator
+﻿$user = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+if (-Not $user.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)) {
+    Write-Error "Need to be run as Administrator"
+    exit 1
+}
 
 $downloadLink = "https://download.sysinternals.com/files/PSTools.zip"
 $pstoolsZip = Join-Path -Path $env:TEMP -ChildPath "PSTools.zip"
@@ -20,4 +24,6 @@ $zip.Dispose()
 Remove-Item $pstoolsZip
 
 # accept EULA
-& reg ADD HKCU\Software\Sysinternals\PSexec /v EulaAccepted /t REG_DWORD /d 1 /f
+& reg ADD HKCU\Software\Sysinternals\PSexec /v EulaAccepted /t REG_DWORD /d 1 /f | Out-Null
+
+Write-Host "PsExec installed." -ForegroundColor Green
