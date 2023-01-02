@@ -1,4 +1,5 @@
-﻿$user = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+﻿# see https://github.com/kantholy/pstools
+$user = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 if (-Not $user.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)) {
     Write-Error "Need to be run as Administrator"
     exit 1
